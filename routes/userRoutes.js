@@ -11,9 +11,7 @@ const {
 
 router.route('/register').post(registerUser)
 router.route('/authentication').post(authenticateUser)
-router
-  .route('/profile')
-  .get(isAuthenticated, getProfileUser)
-  .put(isAuthenticated, updateProfileUser)
+router.put('/profile', isAuthenticated, updateProfileUser)
+router.get('/profile/:id', isAuthenticated, getProfileUser)
 
 module.exports = router

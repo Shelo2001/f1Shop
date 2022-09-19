@@ -30,21 +30,28 @@ const authenticateUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email })
 
   if (user && (await user.matchPassword(password))) {
-    res.status(200).send({ user })
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id),
+    })
   } else {
     res.status(400).send('Invalid User Data')
   }
 })
 
 const getProfileUser = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id)
-
+  const user = await User.findById(req.params.id)
+  console.log(req.params.id)
   if (user) {
-    res.send({
+    res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
+      phoneNumber: user.phoneNumber,
     })
   } else {
     res.status(404).send('User Not Found')

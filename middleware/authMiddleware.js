@@ -5,7 +5,7 @@ const User = require('../models/userModel.js')
 const isAuthenticated = asyncHandler(async (req, res, next) => {
   if (
     req.headers.authorization &&
-    req.headers.authorization.startsWith('Bearer')
+    req.headers.authorization.startsWith('Bearer ')
   ) {
     try {
       token = req.headers.authorization.split(' ')[1]
@@ -18,10 +18,6 @@ const isAuthenticated = asyncHandler(async (req, res, next) => {
       console.error(error)
       res.status(401).send('Not authorized, token Failed')
     }
-  }
-
-  if (!token) {
-    res.status(401).send('Not Authorized, No Token')
   }
 })
 
