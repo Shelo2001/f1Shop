@@ -55,9 +55,15 @@ const ProductDetailsPage = () => {
         ) : (
           <div></div>
         )}
-        <button className='checkoutButton' onClick={navigateHandler}>
-          Checkout
-        </button>
+        {product.countInStock === 0 ? (
+          <button className='disabledButton' disabled>
+            Not In Stock
+          </button>
+        ) : (
+          <button className='checkoutButton' onClick={navigateHandler}>
+            Add To Cart
+          </button>
+        )}
       </div>
     </div>
   )

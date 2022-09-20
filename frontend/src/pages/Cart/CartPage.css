@@ -1,0 +1,62 @@
+.shoppingCartLabels {
+  font-size: large;
+  font-weight: 800;
+  margin-left: 20px;
+}
+
+.shoppingCartContainer {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 1fr;
+  min-height: fit-content;
+  margin-top: 30px;
+}
+
+.shoppingCartProducts {
+  grid-area: 1 / 1 / 2 / 2;
+  min-height: 80vh;
+  margin: 20px;
+}
+
+.shoppingCartPrices {
+  grid-area: 1 / 2 / 2 / 3;
+  height: 200px;
+  margin: 20px;
+}
+
+.productList {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  align-content: center;
+  width: 90%;
+  margin: 10px;
+  height: 120px;
+  flex-direction: row;
+}
+
+.productDetailsList {
+  width: 250px;
+  height: 100px;
+  margin: 5px;
+}
+
+.productDetailsListImage {
+  width: 200px;
+  height: 100px;
+}
+
+.productDetailsListLine {
+  background-color: #abd9ff;
+  width: 100%;
+  border: 1px solid #abd9ff;
+  height: 4px;
+  border: 100%;
+}
+
+.fa-trash:hover {
+  transition: 0.3s;
+  color: red;
+  cursor: pointer;
+}

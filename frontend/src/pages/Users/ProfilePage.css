@@ -1,0 +1,44 @@
+.profileContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: flex-start;
+  width: 100%;
+  min-height: 84vh;
+  margin-top: 20px;
+  overflow: auto;
+  flex-direction: row;
+}
+.profileLabels {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.profileDetails {
+  width: 50%;
+  min-height: 500px;
+  margin: 40px;
+}
+
+.customTable {
+  width: 100%;
+  background-color: #ffffff;
+  border-collapse: collapse;
+  border-width: 2px;
+  border-color: #7ea8f8;
+  border-style: solid;
+  color: #000000;
+}
+
+table.customTable td,
+table.customTable th {
+  border-width: 2px;
+  border-color: #7ea8f8;
+  border-style: solid;
+  padding: 10px;
+}
+
+table.customTable thead {
+  background-color: #7ea8f8;
+}

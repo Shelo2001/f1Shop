@@ -34,6 +34,15 @@ input {
   height: 30px;
   margin: 10px;
   border-radius: 10px;
+  border: 2px solid #acadb5;
+}
+
+input:focus {
+  outline: none;
+  border-width: 2px;
+  border-style: solid;
+  background-color: #f3f4ff;
+  border-color: #b1b2ff;
 }
 
 .formLabels {

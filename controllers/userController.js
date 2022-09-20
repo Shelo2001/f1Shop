@@ -44,7 +44,6 @@ const authenticateUser = asyncHandler(async (req, res) => {
 
 const getProfileUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id)
-  console.log(req.params.id)
   if (user) {
     res.json({
       _id: user._id,

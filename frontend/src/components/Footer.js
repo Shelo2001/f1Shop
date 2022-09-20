@@ -9,7 +9,7 @@ const Footer = () => {
         <strong>Akaki Shelia</strong>
       </a>
       . Source Code Is{' '}
-      <a href=''>
+      <a href='https://github.com/Shelo2001/f1shop'>
         <strong>Here</strong>.
       </a>
     </div>

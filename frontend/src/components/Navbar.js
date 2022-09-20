@@ -6,7 +6,9 @@ import './Navbar.css'
 
 const Navbar = () => {
   const dispatch = useDispatch()
-  const { user } = useSelector((state) => state.users)
+  const userLogin = useSelector((state) => state.users)
+  const { user } = userLogin
+
   const logoutHandler = () => {
     dispatch(logoutUser())
   }
@@ -29,7 +31,6 @@ const Navbar = () => {
             </Link>
             <div class='dropdown-content'>
               <Link to={`/profile/${user._id}`}>Profile</Link>
-              <Link to='/myorders'>My Orders</Link>
             </div>
           </div>
           <Link className='items logout' to='/' onClick={logoutHandler}>
