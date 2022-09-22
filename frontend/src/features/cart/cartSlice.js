@@ -3,6 +3,7 @@ import axios from 'axios'
 
 const initialState = {
   cartItems: [],
+  shippingAddress: {},
   loading: false,
 }
 
@@ -31,6 +32,20 @@ export const addCartItems = createAsyncThunk(
   }
 )
 
+export const deleteCartItems = createAsyncThunk(
+  'carts/deleteCartItems',
+  async (id, { getState }) => {
+    return id
+  }
+)
+
+export const shippingAddress = createAsyncThunk(
+  'carts/shippingAddress',
+  async (shippingAddressData) => {
+    return shippingAddressData
+  }
+)
+
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
@@ -56,6 +71,24 @@ export const cartSlice = createSlice({
       }
     },
     [addCartItems.rejected]: (state) => {
+      state.loading = false
+    },
+    [deleteCartItems.pending]: (state) => {
+      state.loading = true
+    },
+    [deleteCartItems.fulfilled]: (state, { payload }) => {
+      state.cartItems = state.cartItems.filter((x) => x.product !== payload)
+    },
+    [deleteCartItems.rejected]: (state) => {
+      state.loading = false
+    },
+    [shippingAddress.pending]: (state) => {
+      state.loading = true
+    },
+    [shippingAddress.fulfilled]: (state, { payload }) => {
+      state.shippingAddress = payload
+    },
+    [shippingAddress.rejected]: (state) => {
       state.loading = false
     },
   },

@@ -20,7 +20,7 @@
   align-items: flex-start;
   align-content: flex-start;
   width: 25%;
-  min-height: 70vh;
+  min-height: 60vh;
   flex-direction: column;
   border: 1px solid #aac4ff;
   border-radius: 10px;
@@ -30,7 +30,7 @@
 }
 
 input {
-  width: 400px;
+  width: 440px;
   height: 30px;
   margin: 10px;
   border-radius: 10px;
@@ -50,7 +50,7 @@ input:focus {
 }
 
 .registerButton {
-  width: 400px;
+  width: 440px;
   font-size: 20px;
   font-weight: 600;
   color: white;

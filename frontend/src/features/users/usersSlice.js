@@ -85,9 +85,8 @@ export const registerSlice = createSlice({
     [registerUser.pending]: (state) => {
       state.loading = true
     },
-    [registerUser.fulfilled]: (state, { payload }) => {
+    [registerUser.fulfilled]: (state) => {
       state.loading = false
-      state.user = payload.data
       state.success = 'Successfully Registered!'
     },
     [registerUser.rejected]: (state) => {
@@ -98,7 +97,7 @@ export const registerSlice = createSlice({
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       state.loading = false
-      state.user = payload.data
+      state.user = payload
     },
     [loginUser.rejected]: (state) => {
       state.loading = false

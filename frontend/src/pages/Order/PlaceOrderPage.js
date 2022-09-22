@@ -1,46 +1,76 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import './CartPage.css'
-import { addCartItems, deleteCartItems } from '../../features/cart/cartSlice'
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { createOrder } from '../../features/orders/orderSlice'
+import './PlaceOrderPage.css'
 
-const CartPage = () => {
+const PlaceOrder = () => {
   const dispatch = useDispatch()
-  const location = useLocation()
   const navigate = useNavigate()
-  const { id } = useParams()
-  const quantity = location.search ? Number(location.search.split('=')[1]) : 1
 
   const product = useSelector((state) => state.cart)
   const { cartItems } = product
 
-  const userInfo = useSelector((state) => state.users)
-  const { user } = userInfo
+  const shipping = useSelector((state) => state.cart)
+  const { shippingAddress } = shipping
 
-  const deleteItem = (id) => {
-    dispatch(deleteCartItems(id))
+  const orderItem = useSelector((state) => state.order)
+  const { success, order } = orderItem
+
+  const addDecimals = (num) => {
+    return (Math.round(num * 100) / 100).toFixed(2)
+  }
+
+  const itemsPrice = addDecimals(
+    cartItems.reduce((acc, item) => acc + item.price * Number(item.quantity), 0)
+  )
+  const shippingPrice = cartItems
+    .reduce(
+      (acc, item) => acc + (Number(item.quantity) * item.price * 5) / 100,
+      0
+    )
+    .toFixed(2)
+  const totalPrice = (Number(itemsPrice) + Number(shippingPrice)).toFixed(2)
+
+  const data = {
+    orderItems: cartItems,
+    shippingAddress,
+    shippingPrice,
+    itemsPrice,
+    totalPrice,
+  }
+
+  const placeOrderHandler = () => {
+    dispatch(createOrder(data))
   }
 
   useEffect(() => {
-    if (id && quantity) {
-      dispatch(addCartItems({ id, quantity }))
+    if (success) {
+      navigate(`/order/${order._id}`)
     }
-  }, [id, quantity, dispatch])
-
-  const navigateToShippingHandler = () => {
-    if (!user) {
-      navigate('/login')
-    } else {
-      navigate('/shippingaddress')
-    }
-  }
+  }, [order, success])
 
   return (
     <div>
       {cartItems.length !== 0 ? (
         <div className='shoppingCartContainer'>
           <div className='shoppingCartProducts'>
-            <p className='shoppingCartLabels'>Shopping Cart Products</p>
+            <p className='shoppingCartLabels'>Shipping Address Info</p>
+            <div className='shippingAddressInfo'>
+              <p>
+                Address: {shippingAddress.country}, {shippingAddress.city},{' '}
+                {shippingAddress.district}, {shippingAddress.street} (
+                {shippingAddress.additionalInfo})
+              </p>
+            </div>
+            <hr
+              style={{
+                backgroundColor: 'black',
+                margin: '20px',
+                height: '2px',
+              }}
+            ></hr>
+            <p className='shoppingCartLabels'>Order Products</p>
             <div>
               {cartItems.map((p) => (
                 <div>
@@ -48,36 +78,13 @@ const CartPage = () => {
                     <div className='productDetailsList'>
                       <img className='productDetailsListImage' src={p.image} />
                     </div>
-                    <div className='productDetailsList'>{p.name}</div>
-                    <div className='productDetailsList'>{p.price} $</div>
                     <div className='productDetailsList'>
-                      <select
-                        className='productQuantitySelect'
-                        value={p.quantity}
-                        onChange={(e) =>
-                          dispatch(
-                            addCartItems({
-                              id: p.product,
-                              quantity: e.target.value,
-                            })
-                          )
-                        }
-                      >
-                        {[...Array(p.countInStock).keys()].map((x) => (
-                          <option key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </option>
-                        ))}
-                      </select>
+                      <Link to={`/${p.product}`}>{p.name}</Link>
                     </div>
                     <div className='productDetailsList'>
-                      <button
-                        className='deleteButton'
-                        onClick={() => deleteItem(p.product)}
-                      >
-                        <i class='fa-solid fa-trash fa-lg'></i>
-                      </button>
+                      {p.quantity} x {p.price} = {p.quantity * p.price} $
                     </div>
+                    <div className='productDetailsList'></div>
                   </div>
                   <hr className='productDetailsListLine'></hr>
                 </div>
@@ -85,10 +92,7 @@ const CartPage = () => {
             </div>
           </div>
           <div className='shoppingCartPrices'>
-            <p className='shoppingCartLabels'>
-              Subtotal (
-              {cartItems.reduce((acc, item) => acc + Number(item.quantity), 0)})
-            </p>
+            <p className='shoppingCartLabels'>Order Summary</p>
             <hr></hr>
             <div className='shoppingCartLabels'>
               All Products Price :{' '}
@@ -128,9 +132,9 @@ const CartPage = () => {
             <div className='shoppingCartLabels'>
               <button
                 className='checkoutCartButton'
-                onClick={navigateToShippingHandler}
+                onClick={placeOrderHandler}
               >
-                Checkout
+                Place Order
               </button>
             </div>
           </div>
@@ -147,4 +151,4 @@ const CartPage = () => {
   )
 }
 
-export default CartPage
+export default PlaceOrder
