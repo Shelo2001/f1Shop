@@ -11,4 +11,20 @@ const getSingleProduct = asyncHandler(async (req, res) => {
   res.send(product)
 })
 
-module.exports = { getAllProducts, getSingleProduct }
+const createProduct = asyncHandler(async (req, res) => {
+  const product = new Product({
+    name: req.body.name,
+    price: req.body.price,
+    user: req.user._id,
+    image: req.body.image,
+    description: req.body.description,
+    category: req.body.category,
+    countInStock: req.body.countInStock,
+    size: 'M',
+  })
+
+  const createdProduct = await product.save()
+  res.status(201).send(createdProduct)
+})
+
+module.exports = { getAllProducts, getSingleProduct, createProduct }

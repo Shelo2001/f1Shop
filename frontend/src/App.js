@@ -15,7 +15,8 @@ import DashboardPage from './pages/Admin/DashboardPage'
 import UsersPage from './pages/Admin/UsersPage'
 import OrdersPage from './pages/Admin/OrdersPage'
 import ServicesPage from './pages/Admin/ServicesPage'
-import AdminProductsPage from './pages/Admin/ServicesPage'
+import AdminProductsPage from './pages/Admin/AdminProductsPage'
+import CreateProductPage from './pages/Admin/CreateProductPage'
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path='/admin/users' element={<UsersPage />} />
         <Route path='/admin/services' element={<ServicesPage />} />
         <Route path='/admin/orders' element={<OrdersPage />} />
+        <Route path='/createproduct' element={<CreateProductPage />} />
       </Routes>
       <Footer />
     </Router>

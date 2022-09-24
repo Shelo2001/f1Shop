@@ -3,7 +3,9 @@ import axios from 'axios'
 
 const initialState = {
   allOrders: [],
+  createdOrder: {},
   loading: false,
+  success: false,
 }
 
 export const getAllOrders = createAsyncThunk(
@@ -47,6 +49,26 @@ export const updateOrderAsDelivered = createAsyncThunk(
   }
 )
 
+export const createProduct = createAsyncThunk(
+  'admin/createProduct',
+  async (product, { getState }) => {
+    try {
+      const token = getState().users.user.token
+
+      const { data } = await axios.post(`/api/v1/products`, product, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
 export const adminSlice = createSlice({
   name: 'admin',
   initialState,
@@ -62,13 +84,25 @@ export const adminSlice = createSlice({
       state.loading = false
     },
 
-    [getAllOrders.pending]: (state) => {
+    [updateOrderAsDelivered.pending]: (state) => {
       state.loading = true
     },
-    [getAllOrders.fulfilled]: (state, { payload }) => {
+    [updateOrderAsDelivered.fulfilled]: (state, { payload }) => {
       state.allOrders = payload
     },
-    [getAllOrders.rejected]: (state) => {
+    [updateOrderAsDelivered.rejected]: (state) => {
+      state.loading = false
+    },
+
+    [createProduct.pending]: (state) => {
+      state.loading = true
+    },
+    [createProduct.fulfilled]: (state, { payload }) => {
+      state.createOrder = payload
+      state.success = true
+      state.loading = false
+    },
+    [createProduct.rejected]: (state) => {
       state.loading = false
     },
   },

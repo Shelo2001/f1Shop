@@ -44,3 +44,14 @@
 .cardCategory {
   margin-bottom: 40px;
 }
+.filterContainer {
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.filterContainerItems {
+  margin: 20px;
+}

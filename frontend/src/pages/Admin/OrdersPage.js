@@ -14,6 +14,8 @@ const OrdersPage = () => {
   const orders = useSelector((state) => state.admin)
   const { allOrders } = orders
 
+  console.log(allOrders)
+
   useEffect(() => {
     dispatch(getAllOrders())
   }, [])
@@ -26,6 +28,7 @@ const OrdersPage = () => {
   return (
     <div>
       <SideNav />
+      <p className='adminLabel'>ORDERS</p>
       <table class='customTable' style={{ marginTop: '30px' }}>
         <thead>
           <tr>
@@ -37,6 +40,7 @@ const OrdersPage = () => {
             <th>Pay On Delivery</th>
             <th>Paid</th>
             <th>Details</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -76,6 +80,11 @@ const OrdersPage = () => {
                 <Link to={`/order/${order._id}`}>
                   <button className='linkTd'>Details</button>
                 </Link>
+              </td>
+              <td>
+                <button className='deleteButton'>
+                  <i class='fa-solid fa-trash fa-lg'></i>
+                </button>
               </td>
             </tr>
           ))}
