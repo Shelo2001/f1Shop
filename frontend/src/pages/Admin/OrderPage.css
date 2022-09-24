@@ -1,0 +1,12 @@
+.deliveredButton {
+  padding: 10px;
+  background-color: #7ea8f8;
+  border: none;
+  cursor: pointer;
+  font-size: large;
+  color: white;
+  transition: 0.3s;
+}
+.deliveredButton:hover {
+  background-color: #175fe6;
+}

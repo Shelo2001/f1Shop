@@ -52,6 +52,26 @@ export const loginUser = createAsyncThunk(
   }
 )
 
+export const updateUser = createAsyncThunk(
+  'users/updateUser',
+  async (userDetails, { getState }) => {
+    try {
+      const token = getState().users.user.token
+
+      const { data } = await axios.put('/api/v1/users/profile', userDetails, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
 export const logoutUser = createAsyncThunk('users/logoutUser', async () => {
   try {
     localStorage.removeItem('userInfo')
@@ -112,7 +132,16 @@ export const registerSlice = createSlice({
     [detailsUser.rejected]: (state) => {
       state.loading = false
     },
-
+    [detailsUser.pending]: (state) => {
+      state.loading = true
+    },
+    [detailsUser.fulfilled]: (state, { payload }) => {
+      state.loading = false
+      state.userDetails = payload
+    },
+    [detailsUser.rejected]: (state) => {
+      state.loading = false
+    },
     [logoutUser.fulfilled]: (state) => {
       state.user = null
     },

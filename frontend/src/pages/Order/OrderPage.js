@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
-import { getOrderWithId } from '../../features/orders/orderSlice'
-
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
+import {
+  getOrderWithId,
+  payOnDeliveryOrderUpdate,
+} from '../../features/orders/orderSlice'
 import './OrderPage.css'
 
 const OrderPage = () => {
@@ -15,6 +18,11 @@ const OrderPage = () => {
   useEffect(() => {
     dispatch(getOrderWithId(id))
   }, [dispatch, getOrderWithId])
+
+  const orderUpdate = (orderId) => {
+    dispatch(payOnDeliveryOrderUpdate(orderId))
+    window.location.reload()
+  }
 
   return (
     <div>
@@ -47,11 +55,11 @@ const OrderPage = () => {
               <div className='shippingAddressInfo'>
                 {placedOrder.isDelivered ? (
                   <div className='success'>
-                    <p>Delivered</p>
+                    <p>Delivery Status: Delivered</p>
                   </div>
                 ) : (
                   <div className='warning'>
-                    <p>Not Delivered</p>
+                    <p>Delivery Status: Not Delivered</p>
                   </div>
                 )}
               </div>
@@ -59,14 +67,18 @@ const OrderPage = () => {
               <div className='shippingAddressInfo'>
                 {placedOrder.isPaid ? (
                   <div className='success'>
-                    <p>Paid</p>
+                    <p>Payment Status: Paid</p>
+                  </div>
+                ) : placedOrder.payOnDelivery ? (
+                  <div className='success'>
+                    <p>
+                      Payment Status: Pay On Delivery, Our Courier Will Contact
+                      You Within A Week
+                    </p>
                   </div>
                 ) : (
                   <div className='warning'>
-                    <p>
-                      Not Paid (If You Do not Pay, Our Courier Will Contact You
-                      Within 1 Week. )
-                    </p>
+                    <p>Payment Status: Not Paid</p>
                   </div>
                 )}
               </div>
@@ -140,8 +152,19 @@ const OrderPage = () => {
                   .toFixed(2)}{' '}
                 $
               </div>
-
-              <div className='shoppingCartLabels'></div>
+              {!placedOrder.isPaid && (
+                <button className='stripeButton'></button>
+              )}
+              <div className='shoppingCartLabels'>
+                {!placedOrder.payOnDelivery && (
+                  <button
+                    className='checkoutButton'
+                    onClick={() => orderUpdate(placedOrder._id)}
+                  >
+                    Pay On Delivery
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         ) : (

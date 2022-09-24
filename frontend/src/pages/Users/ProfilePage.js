@@ -3,26 +3,38 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import { detailsUser } from '../../features/users/usersSlice'
+import { getAllOrdersUser } from '../../features/orders/orderSlice'
 import './ProfilePage.css'
 
 const ProfilePage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const params = useParams()
+
   const userDetails = useSelector((state) => state.users.userDetails)
   const user = useSelector((state) => state.users.user)
 
+  const myOrders = useSelector((state) => state.order)
+  const { allOrder } = myOrders
+  console.log(allOrder)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
 
   useEffect(() => {
     dispatch(detailsUser(params.id))
+    dispatch(getAllOrdersUser())
     if (!user) {
       navigate('/')
     }
   }, [dispatch])
+
+  const updateHandler = () => {
+    const data = { name, email, phoneNumber, password }
+    dispatch(detailsUser(data))
+  }
 
   return (
     <div className='profileContainer'>
@@ -32,7 +44,7 @@ const ProfilePage = () => {
           <p className='formLabels'>Name</p>
           <input
             type='text'
-            value={name}
+            value={userDetails.name}
             placeholder='Akaki'
             onChange={(e) => setName(e.target.value)}
           />
@@ -40,7 +52,7 @@ const ProfilePage = () => {
 
           <input
             type='email'
-            value={email}
+            value={userDetails.email}
             placeholder='email@example.com'
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -52,16 +64,28 @@ const ProfilePage = () => {
             placeholder='................'
             onChange={(e) => setPassword(e.target.value)}
           />
+
+          <p className='formLabels'>Password</p>
+
+          <input
+            type='password'
+            value={confirmPassword}
+            placeholder='................'
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+
           <p className='formLabels'>Phone Number</p>
 
           <input
             type='text'
-            value={phoneNumber}
+            value={userDetails.phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             placeholder='555-222-333'
           />
 
-          <button className='registerButton'>Update</button>
+          <button className='registerButton' onClick={() => updateHandler}>
+            Update
+          </button>
         </div>
       </div>
       <div className='profileDetails right'>
@@ -70,32 +94,41 @@ const ProfilePage = () => {
         <table class='customTable'>
           <thead>
             <tr>
-              <th>Header 1</th>
-              <th>Header 2</th>
-              <th>Header 3</th>
-              <th>Header 4</th>
-              <th>Header 5</th>
-              <th>Header 6</th>
+              <th>Order Id</th>
+              <th>Placed Time</th>
+              <th>Delivered</th>
+              <th>Total Price</th>
+              <th>Paid</th>
+              <th>Details</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Row 1, Cell 1</td>
-              <td>Row 1, Cell 2</td>
-              <td>Row 1, Cell 3</td>
-              <td>Row 1, Cell 4</td>
-              <td>Row 1, Cell 5</td>
-              <td>Row 1, Cell 6</td>
-            </tr>
-
-            <tr>
-              <td>Row 2, Cell 1</td>
-              <td>Row 2, Cell 2</td>
-              <td>Row 2, Cell 3</td>
-              <td>Row 2, Cell 4</td>
-              <td>Row 2, Cell 5</td>
-              <td>Row 2, Cell 6</td>
-            </tr>
+            {allOrder.map((order) => (
+              <tr>
+                <td>#{order._id}</td>
+                <td>{order.createdAt}</td>
+                <td>
+                  {order.isDelivered ? (
+                    <i class='fa-solid fa-check'></i>
+                  ) : (
+                    <i class='fa-solid fa-x'></i>
+                  )}
+                </td>
+                <td>{order.totalPrice} $</td>
+                <td>
+                  {order.isPaid ? (
+                    <i class='fa-solid fa-check'></i>
+                  ) : (
+                    <i class='fa-solid fa-x'></i>
+                  )}
+                </td>
+                <td>
+                  <Link to={`/order/${order._id}`}>
+                    <button className='linkTd'>Details</button>
+                  </Link>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

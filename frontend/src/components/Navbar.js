@@ -32,6 +32,11 @@ const Navbar = () => {
             <div class='dropdown-content'>
               <Link to={`/profile/${user._id}`}>Profile</Link>
             </div>
+            {user.isAdmin && (
+              <div class='dropdown-content'>
+                <Link to={`/admin/dashboard`}>Dashboard</Link>
+              </div>
+            )}
           </div>
           <Link className='items logout' to='/' onClick={logoutHandler}>
             <i class='fa-solid fa-right-from-bracket'></i> Log Out

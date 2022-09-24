@@ -5,12 +5,8 @@ const initialState = {
   loading: false,
   success: false,
   order: {},
+  allOrder: [],
   placedOrder: {},
-}
-const config = {
-  headers: {
-    'Content-Type': 'application/json',
-  },
 }
 
 export const createOrder = createAsyncThunk(
@@ -52,6 +48,44 @@ export const getOrderWithId = createAsyncThunk(
   }
 )
 
+export const getAllOrdersUser = createAsyncThunk(
+  'orders/getAllOrdersUser',
+  async (id, { getState }) => {
+    try {
+      const token = getState().users.user.token
+
+      const { data } = await axios.get('/api/v1/order/myorders', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
+export const payOnDeliveryOrderUpdate = createAsyncThunk(
+  'orders/payOnDeliveryOrderUpdate',
+  async (orderId, { getState }) => {
+    try {
+      const token = getState().users.user.token
+      console.log(token)
+
+      const { data } = await axios.get(`/api/v1/order/updateorder/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
 export const ordersSlice = createSlice({
   name: 'orders',
   initialState,
@@ -77,6 +111,25 @@ export const ordersSlice = createSlice({
       state.placedOrder = payload
     },
     [getOrderWithId.rejected]: (state) => {
+      state.loading = false
+    },
+    [getAllOrdersUser.pending]: (state) => {
+      state.loading = true
+    },
+    [getAllOrdersUser.fulfilled]: (state, { payload }) => {
+      state.loading = false
+      state.allOrder = payload
+    },
+    [getAllOrdersUser.rejected]: (state) => {
+      state.loading = false
+    },
+    [payOnDeliveryOrderUpdate.pending]: (state) => {
+      state.loading = true
+    },
+    [payOnDeliveryOrderUpdate.fulfilled]: (state, { payload }) => {
+      state.loading = false
+    },
+    [payOnDeliveryOrderUpdate.rejected]: (state, action) => {
       state.loading = false
     },
   },

@@ -70,13 +70,7 @@ const updateProfileUser = asyncHandler(async (req, res) => {
 
     const updatedUser = await user.save()
 
-    res.json({
-      _id: updatedUser._id,
-      name: updatedUser.name,
-      email: updatedUser.email,
-      isAdmin: updatedUser.isAdmin,
-      token: generateToken(updatedUser._id),
-    })
+    res.send(updatedUser)
   } else {
     res.status(400).send('User Not Found')
   }

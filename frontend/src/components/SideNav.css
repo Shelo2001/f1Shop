@@ -1,0 +1,27 @@
+.sideNav {
+  height: 100%;
+  width: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding-top: 40px;
+  background-color: rgb(74, 155, 213);
+  overflow-x: hidden;
+  transition: 0.5s;
+  cursor: pointer;
+}
+.sideNav:hover {
+  width: 150px;
+}
+
+.sideNavItems {
+  font-size: 24px;
+  font-weight: 900;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.sideNavListItems {
+  color: white;
+}

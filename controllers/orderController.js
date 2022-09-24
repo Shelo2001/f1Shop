@@ -1,7 +1,5 @@
 const Order = require('../models/orderModel')
 const asyncHandler = require('express-async-handler')
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
-const { v4: uuidv4 } = require('uuid')
 
 const placeOrder = asyncHandler(async (req, res) => {
   const { orderItems, shippingAddress, itemsPrice, shippingPrice, totalPrice } =
@@ -39,25 +37,48 @@ const getOrderWithId = asyncHandler(async (req, res) => {
   }
 })
 
-const updateOrderToPaid = asyncHandler(async (req, res) => {
-  const order = await Order.findById(req.params.id)
+const updatePayOnDeliveryOrder = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.orderId)
+
+  console.log(order)
 
   if (order) {
-    order.isPaid = true
-    order.paidAt = Date.now()
-    order.paymentResult = {
-      id: req.body.id,
-      status: req.body.status,
-      update_time: req.body.update_time,
-      email_address: req.body.payer.email_address,
-    }
-
+    order.payOnDelivery = true
     const updatedOrder = await order.save()
-
-    res.json(updatedOrder)
+    res.status(201).json(updatedOrder)
   } else {
-    console.log(error)
+    res.status(404).send('error')
   }
 })
 
-module.exports = { placeOrder, getOrderWithId, updateOrderToPaid }
+const getOrdersUser = asyncHandler(async (req, res) => {
+  console.log(req.user._id)
+  const orders = await Order.find({ user: req.user._id })
+  res.send(orders)
+})
+
+const getOrdersAdmin = asyncHandler(async (req, res) => {
+  const adminAllOrders = await Order.find({})
+  res.send(adminAllOrders)
+})
+
+const updateOrderAsDeliveredAdmin = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.orderId)
+
+  if (order) {
+    order.isDelivered = true
+    const updatedOrder = await order.save()
+    res.status(201).json(updatedOrder)
+  } else {
+    res.status(404).send('error')
+  }
+})
+
+module.exports = {
+  placeOrder,
+  getOrderWithId,
+  updatePayOnDeliveryOrder,
+  getOrdersUser,
+  getOrdersAdmin,
+  updateOrderAsDeliveredAdmin,
+}

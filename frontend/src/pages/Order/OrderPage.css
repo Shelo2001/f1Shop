@@ -18,3 +18,9 @@
   font-size: large;
   font-weight: 800;
 }
+
+.stripeButton {
+  width: 92%;
+  margin: 20px;
+  height: 30px;
+}

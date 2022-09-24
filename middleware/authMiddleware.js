@@ -21,4 +21,12 @@ const isAuthenticated = asyncHandler(async (req, res, next) => {
   }
 })
 
-module.exports = { isAuthenticated }
+const isAdmin = asyncHandler(async (req, res, next) => {
+  if (req.user && req.user.isAdmin) {
+    next()
+  } else {
+    res.status(401).send('Not authorized')
+  }
+})
+
+module.exports = { isAuthenticated, isAdmin }

@@ -42,3 +42,25 @@ table.customTable th {
 table.customTable thead {
   background-color: #7ea8f8;
 }
+.linkTd {
+  width: 50px;
+  height: 30px;
+  background-color: #adddd0;
+  cursor: pointer;
+  color: rgb(28, 26, 26);
+  border: none;
+  font-weight: 700;
+  padding: 2px;
+  transition: 0.3s;
+}
+.linkTd:hover {
+  background-color: #3d8361;
+}
+
+.fa-check {
+  color: #3d8361;
+}
+
+.fa-x {
+  color: red;
+}
