@@ -2,26 +2,38 @@ import React, { useEffect } from 'react'
 import SideNav from '../../components/SideNav'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  deleteOrder,
   getAllOrders,
   updateOrderAsDelivered,
 } from '../../features/admin/adminSlice'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './OrderPage.css'
 
 const OrdersPage = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const orders = useSelector((state) => state.admin)
   const { allOrders } = orders
 
-  console.log(allOrders)
+  const admin = useSelector((state) => state.users)
+  const { user: userAdmin } = admin
 
   useEffect(() => {
-    dispatch(getAllOrders())
+    if (userAdmin.isAdmin) {
+      dispatch(getAllOrders())
+    } else {
+      navigate('/')
+    }
   }, [])
 
   const markAsDeliveredHandler = (id) => {
     dispatch(updateOrderAsDelivered(id))
+    window.location.reload()
+  }
+
+  const deleteOrderHandler = (id) => {
+    dispatch(deleteOrder(id))
     window.location.reload()
   }
 
@@ -82,7 +94,10 @@ const OrdersPage = () => {
                 </Link>
               </td>
               <td>
-                <button className='deleteButton'>
+                <button
+                  className='deleteButton'
+                  onClick={() => deleteOrderHandler(order._id)}
+                >
                   <i class='fa-solid fa-trash fa-lg'></i>
                 </button>
               </td>

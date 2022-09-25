@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getProductsAsync } from '../../features/products/productsSlice'
 import './AdminProductsPage.css'
 import { Link } from 'react-router-dom'
+import { deleteProductById } from '../../features/admin/adminSlice'
 const AdminProductsPage = () => {
   const dispatch = useDispatch()
   const productsData = useSelector((state) => state.products)
@@ -12,6 +13,11 @@ const AdminProductsPage = () => {
   useEffect(() => {
     dispatch(getProductsAsync())
   }, [])
+
+  const deleteProductHandler = (id) => {
+    dispatch(deleteProductById(id))
+    window.location.reload()
+  }
 
   return (
     <div>
@@ -45,7 +51,10 @@ const AdminProductsPage = () => {
                 </Link>
               </td>
               <td>
-                <button className='deleteButton'>
+                <button
+                  className='deleteButton'
+                  onClick={() => deleteProductHandler(product._id)}
+                >
                   <i class='fa-solid fa-trash fa-lg'></i>
                 </button>
               </td>

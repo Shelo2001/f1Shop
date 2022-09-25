@@ -27,4 +27,13 @@ const createProduct = asyncHandler(async (req, res) => {
   res.status(201).send(createdProduct)
 })
 
-module.exports = { getAllProducts, getSingleProduct, createProduct }
+const deleteProductById = asyncHandler(async (req, res) => {
+  const product = await Product.findByIdAndDelete(req.params.id)
+  res.send(product)
+})
+module.exports = {
+  getAllProducts,
+  getSingleProduct,
+  createProduct,
+  deleteProductById,
+}

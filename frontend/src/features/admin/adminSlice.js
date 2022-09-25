@@ -3,6 +3,7 @@ import axios from 'axios'
 
 const initialState = {
   allOrders: [],
+  allUsers: [],
   createdOrder: {},
   loading: false,
   success: false,
@@ -69,6 +70,63 @@ export const createProduct = createAsyncThunk(
   }
 )
 
+export const deleteOrder = createAsyncThunk(
+  'admin/deleteOrder',
+  async (id, { getState }) => {
+    try {
+      const token = getState().users.user.token
+
+      const { data } = await axios.delete(`/api/v1/order/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
+export const deleteProductById = createAsyncThunk(
+  'admin/deleteProductById',
+  async (id, { getState }) => {
+    try {
+      const token = getState().users.user.token
+
+      const { data } = await axios.delete(`/api/v1/products/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
+export const getAllUsersList = createAsyncThunk(
+  'admin/getAllUsersList',
+  async (id, { getState }) => {
+    try {
+      const token = getState().users.user.token
+
+      const { data } = await axios.get(`/api/v1/users/userlist`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
 export const adminSlice = createSlice({
   name: 'admin',
   initialState,
@@ -103,6 +161,37 @@ export const adminSlice = createSlice({
       state.loading = false
     },
     [createProduct.rejected]: (state) => {
+      state.loading = false
+    },
+
+    [createProduct.pending]: (state) => {
+      state.loading = true
+    },
+    [createProduct.fulfilled]: (state) => {
+      state.loading = false
+    },
+    [createProduct.rejected]: (state) => {
+      state.loading = false
+    },
+
+    [deleteProductById.pending]: (state) => {
+      state.loading = true
+    },
+    [deleteProductById.fulfilled]: (state) => {
+      state.loading = false
+    },
+    [deleteProductById.rejected]: (state) => {
+      state.loading = false
+    },
+
+    [getAllUsersList.pending]: (state) => {
+      state.loading = true
+    },
+    [getAllUsersList.fulfilled]: (state, { payload }) => {
+      state.allUsers = payload
+      state.loading = false
+    },
+    [getAllUsersList.rejected]: (state) => {
       state.loading = false
     },
   },

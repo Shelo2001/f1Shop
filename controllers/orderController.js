@@ -62,6 +62,11 @@ const getOrdersAdmin = asyncHandler(async (req, res) => {
   res.send(adminAllOrders)
 })
 
+const deleteOrdersAdmin = asyncHandler(async (req, res) => {
+  const deletedOrder = await Order.findByIdAndDelete(req.params.orderId)
+  res.send(deletedOrder)
+})
+
 const updateOrderAsDeliveredAdmin = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.orderId)
 
@@ -81,4 +86,5 @@ module.exports = {
   getOrdersUser,
   getOrdersAdmin,
   updateOrderAsDeliveredAdmin,
+  deleteOrdersAdmin,
 }

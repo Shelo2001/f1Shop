@@ -9,6 +9,7 @@ const {
   getOrdersUser,
   getOrdersAdmin,
   updateOrderAsDeliveredAdmin,
+  deleteOrdersAdmin,
 } = require('../controllers/orderController')
 
 router.route('/').post(isAuthenticated, placeOrder)
@@ -18,7 +19,10 @@ router
   .route('/admin/updateorder/:orderId')
   .get(isAuthenticated, isAdmin, updateOrderAsDeliveredAdmin)
 
-router.route('/:orderId').get(isAuthenticated, getOrderWithId)
+router
+  .route('/:orderId')
+  .get(isAuthenticated, getOrderWithId)
+  .delete(isAuthenticated, isAdmin, deleteOrdersAdmin)
 router
   .route('/updateorder/:orderId')
   .get(isAuthenticated, updatePayOnDeliveryOrder)

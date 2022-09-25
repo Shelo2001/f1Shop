@@ -76,9 +76,16 @@ const updateProfileUser = asyncHandler(async (req, res) => {
   }
 })
 
+const getAllUsersAdmin = asyncHandler(async (req, res) => {
+  const users = await User.find({})
+
+  res.send(users)
+})
+
 module.exports = {
   registerUser,
   authenticateUser,
   getProfileUser,
   updateProfileUser,
+  getAllUsersAdmin,
 }
