@@ -34,7 +34,7 @@ const Navbar = () => {
             </div>
             {user.isAdmin && (
               <div class='dropdown-content'>
-                <Link to={`/admin/dashboard`}>Dashboard</Link>
+                <Link to={`/admin/users`}>Dashboard</Link>
               </div>
             )}
           </div>

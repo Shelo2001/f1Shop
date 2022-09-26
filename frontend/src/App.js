@@ -11,7 +11,6 @@ import ProfilePage from './pages/Users/ProfilePage'
 import ShippingAddressPage from './pages/Order/ShippingAddressPage'
 import PlaceOrderPage from './pages/Order/PlaceOrderPage'
 import OrderPage from './pages/Order/OrderPage'
-import DashboardPage from './pages/Admin/DashboardPage'
 import UsersPage from './pages/Admin/UsersPage'
 import OrdersPage from './pages/Admin/OrdersPage'
 import ServicesPage from './pages/Admin/ServicesPage'
@@ -33,7 +32,6 @@ function App() {
         <Route path='/shippingaddress' element={<ShippingAddressPage />} />
         <Route path='/placeorder' element={<PlaceOrderPage />} />
         <Route path='/order/:id' element={<OrderPage />} />
-        <Route path='/admin/dashboard' element={<DashboardPage />} />
         <Route path='/admin/products' element={<AdminProductsPage />} />
         <Route path='/admin/users' element={<UsersPage />} />
         <Route path='/admin/services' element={<ServicesPage />} />

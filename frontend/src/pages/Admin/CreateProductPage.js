@@ -26,27 +26,42 @@ const CreateProductPage = () => {
   }
 
   return (
-    <div>
-      <input value={name} onChange={(e) => setName(e.target.value)} />
-      <input
-        type='number'
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-      />
-      <input value={category} onChange={(e) => setCategory(e.target.value)} />
-      <input
-        type='number'
-        value={countInStock}
-        onChange={(e) => setCountInStock(e.target.value)}
-      />
-      <input
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-      <input value={image} onChange={(e) => setImage(e.target.value)} />
-      <button onClick={createProductHandler} className='checkoutButton'>
-        create product
-      </button>
+    <div className='registerForm'>
+      <p className='registerHeader'>Create Product</p>
+
+      <div className='formContainer'>
+        <p className='formLabels'>Product Name</p>
+        <input value={name} onChange={(e) => setName(e.target.value)} />
+
+        <p className='formLabels'>Product Price</p>
+        <input
+          type='number'
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+        />
+
+        <p className='formLabels'>Product Category</p>
+        <input value={category} onChange={(e) => setCategory(e.target.value)} />
+
+        <p className='formLabels'>In Stock</p>
+        <input
+          type='number'
+          value={countInStock}
+          onChange={(e) => setCountInStock(e.target.value)}
+        />
+
+        <p className='formLabels'>Product Description</p>
+        <input
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+
+        <p className='formLabels'>Product Image(URL)</p>
+        <input value={image} onChange={(e) => setImage(e.target.value)} />
+        <button onClick={createProductHandler} className='registerButton'>
+          create product
+        </button>
+      </div>
     </div>
   )
 }

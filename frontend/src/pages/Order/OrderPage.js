@@ -152,13 +152,12 @@ const OrderPage = () => {
                   .toFixed(2)}{' '}
                 $
               </div>
-              {!placedOrder.isPaid && (
-                <button className='stripeButton'></button>
-              )}
+
               <div className='shoppingCartLabels'>
                 {!placedOrder.payOnDelivery && (
                   <button
                     className='checkoutButton'
+                    style={{ marginTop: '40px' }}
                     onClick={() => orderUpdate(placedOrder._id)}
                   >
                     Pay On Delivery

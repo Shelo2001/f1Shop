@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react'
 import SideNav from '../../components/SideNav'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllUsersList } from '../../features/admin/adminSlice'
+import {
+  getAllUsersList,
+  updateUserAsAdmin,
+} from '../../features/admin/adminSlice'
 import { Link, useNavigate } from 'react-router-dom'
 
 const UsersPage = () => {
@@ -21,6 +24,11 @@ const UsersPage = () => {
       navigate('/')
     }
   }, [])
+
+  const makeAdminHandler = (id) => {
+    dispatch(updateUserAsAdmin(id))
+    window.location.reload()
+  }
 
   return (
     <div>
@@ -48,7 +56,12 @@ const UsersPage = () => {
                 {user.isAdmin ? (
                   <i class='fa-solid fa-check'></i>
                 ) : (
-                  <button className='deliveredButton'>Make As Admin</button>
+                  <button
+                    className='deliveredButton'
+                    onClick={() => makeAdminHandler(user._id)}
+                  >
+                    Make As Admin
+                  </button>
                 )}
               </td>
             </tr>

@@ -82,10 +82,25 @@ const getAllUsersAdmin = asyncHandler(async (req, res) => {
   res.send(users)
 })
 
+const updateUserAsAdmin = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id)
+
+  if (user) {
+    user.isAdmin = true
+
+    const updatedUser = await user.save()
+
+    res.send(updatedUser)
+  } else {
+    res.status(400).send('User Not Found')
+  }
+})
+
 module.exports = {
   registerUser,
   authenticateUser,
   getProfileUser,
   updateProfileUser,
   getAllUsersAdmin,
+  updateUserAsAdmin,
 }

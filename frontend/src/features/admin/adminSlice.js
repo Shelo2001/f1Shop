@@ -127,6 +127,25 @@ export const getAllUsersList = createAsyncThunk(
   }
 )
 
+export const updateUserAsAdmin = createAsyncThunk(
+  'admin/updateUserAsAdmin',
+  async (id, { getState }) => {
+    try {
+      const token = getState().users.user.token
+
+      const { data } = await axios.get(`/api/v1/users/admin/user/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+)
+
 export const adminSlice = createSlice({
   name: 'admin',
   initialState,
@@ -168,6 +187,7 @@ export const adminSlice = createSlice({
       state.loading = true
     },
     [createProduct.fulfilled]: (state) => {
+      state.success = true
       state.loading = false
     },
     [createProduct.rejected]: (state) => {
@@ -192,6 +212,16 @@ export const adminSlice = createSlice({
       state.loading = false
     },
     [getAllUsersList.rejected]: (state) => {
+      state.loading = false
+    },
+
+    [updateUserAsAdmin.pending]: (state) => {
+      state.loading = true
+    },
+    [updateUserAsAdmin.fulfilled]: (state) => {
+      state.loading = false
+    },
+    [updateUserAsAdmin.rejected]: (state) => {
       state.loading = false
     },
   },
