@@ -7,7 +7,8 @@
     "start": "node backend/server",
     "server": "nodemon backend/server.js",
     "client": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Akaki Shelia",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.1",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.20",
     "uuid": "^9.0.0"
   }
