@@ -7,10 +7,10 @@ cd frontend
 npm install
 ________________________________________________________
 
-Run frontend and backend
+Run frontend and backend:
 npm run dev
 
-Run backend only
+Run backend only:
 npm run server
 ________________________________________________________
 User samples
