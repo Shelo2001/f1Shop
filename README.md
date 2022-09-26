@@ -2,10 +2,11 @@ Ecommerce Website of Formula 1 Team Clothes
 ________________________________________________________
 Install Dependencies (frontend & backend)
 npm install
+
 cd frontend
 npm install
 ________________________________________________________
-Run
+
 Run frontend and backend
 npm run dev
 
