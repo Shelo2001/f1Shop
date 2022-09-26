@@ -4,11 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon server.js",
-    "frontend": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run frontend\"",
-    "data:import": "node seeder",
-    "data:destroy": "node seeder -d"
+    "start": "node backend/server",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Akaki Shelia",
   "license": "ISC",
